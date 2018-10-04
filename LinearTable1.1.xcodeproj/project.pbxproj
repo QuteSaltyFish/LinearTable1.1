@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		18F89FB821664AD600B92212 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18F89FB721664AD600B92212 /* main.cpp */; };
+		18F89FC121664E7A00B92212 /* LongIntList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18F89FBF21664E7A00B92212 /* LongIntList.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,8 @@
 /* Begin PBXFileReference section */
 		18F89FB421664AD600B92212 /* LinearTable1.1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = LinearTable1.1; sourceTree = BUILT_PRODUCTS_DIR; };
 		18F89FB721664AD600B92212 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		18F89FBF21664E7A00B92212 /* LongIntList.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LongIntList.cpp; sourceTree = "<group>"; };
+		18F89FC021664E7A00B92212 /* LongIntList.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LongIntList.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +61,8 @@
 			isa = PBXGroup;
 			children = (
 				18F89FB721664AD600B92212 /* main.cpp */,
+				18F89FBF21664E7A00B92212 /* LongIntList.cpp */,
+				18F89FC021664E7A00B92212 /* LongIntList.hpp */,
 			);
 			path = LinearTable1.1;
 			sourceTree = "<group>";
@@ -119,6 +124,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				18F89FB821664AD600B92212 /* main.cpp in Sources */,
+				18F89FC121664E7A00B92212 /* LongIntList.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
