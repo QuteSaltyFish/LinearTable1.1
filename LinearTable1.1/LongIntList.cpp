@@ -131,6 +131,7 @@ LongIntList& LongIntList::operator=(const LongIntList &obj)
 {
     if (this==&obj) return *this;   //防止自己复制自己
     this->clear();
+    this->head->data = obj.head->data;
     for (int i = 0; i<obj.currentLength; ++i)
         this->insert(i, obj.visit(i));
     return *this;

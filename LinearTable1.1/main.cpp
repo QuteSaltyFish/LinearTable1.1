@@ -15,7 +15,7 @@
 int main(int argc, const char * argv[]) {
     // insert code here...
     string data;
-    LongIntList AList, BList;
+    LongIntList AList, BList, CList;
     int isAminus=0, isBminus=0;
     int A=0,B=0;
     
@@ -35,12 +35,13 @@ int main(int argc, const char * argv[]) {
     for (int i = 0; i < index-isAminus; ++i)
     {
         
-        A+= (data[index-1-i]-'0') * pow(10, i%4);
+        
         if (i%4==0 && i!=0)
         {
             AList.add(A);
             A=0;
         }
+        A+= (data[index-1-i]-'0') * pow(10, i%4);
     }
     if (A!=0)
     {
@@ -50,22 +51,21 @@ int main(int argc, const char * argv[]) {
     
     for (int i = 0; i < data.length()-1-index-isBminus-1; ++i)
     {
-        
-        B+= (data[data.length()-1-1-i]-'0') * pow(10, i%4);
         if (i%4==0 && i!=0)
         {
             BList.add(B);
             B=0;
         }
+        B+= (data[data.length()-1-1-i]-'0') * pow(10, i%4);
     }
     if (B!=0)
     {
         BList.add(B);
         B=0;
     }
-    
+    CList = AList + BList;
     AList.traverse();
     BList.traverse();
-    std::cout << "Hello, World!\n";
+    CList.traverse();
     return 0;
 }
