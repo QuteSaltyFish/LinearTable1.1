@@ -142,6 +142,7 @@ LongIntList::LongIntList(const LongIntList &obj)
 {
     head = new node;
     currentLength = 0;
+    head->data = obj.head->data;
     for (int i = 0; i<obj.currentLength; ++i)
         this->insert(i, obj.visit(i));
 }
@@ -149,23 +150,70 @@ LongIntList::LongIntList(const LongIntList &obj)
 //两个相加
 LongIntList operator+(const LongIntList &x, const LongIntList &y)
 {
-    int sum = 0,maxLen;
-    if (x.currentLength>y.currentLength)
+    int sum = 0,minLen, AorB=0, maxLen;     //AorB是A与B的位数比较。
+    if (x.currentLength<y.currentLength)
+    {
+        minLen = x.currentLength;
+        maxLen = y.currentLength;
+        AorB=1;
+    }
+    else if(x.currentLength>y.currentLength)
+    {
+        minLen = y.currentLength;
         maxLen = x.currentLength;
-    else maxLen = y.currentLength;
+        AorB = -1;
+    }
+    else
+    {
+        minLen = y.currentLength;
+        maxLen = x.currentLength;
+        AorB = 0;
+    }
+    
     int carry = 0;
+    int i=0;
     LongIntList A(x), B(y), C;
     if (x.head->data == y.head->data)   //判断是否符号相同
     {
         C.head->data = x.head->data;    //赋符号
-        for ( int i=0; i<maxLen; ++i)
+        for ( i=0; i<minLen; ++i)
         {
             sum = A.visit(i) + B.visit(i) + carry;
             C.insert(i,sum%10000);
             carry = sum/10000;
         }
-        if (carry==1)
-            C.insert(maxLen, 1);
+        if (AorB==1)
+        {
+            while (carry==1)
+            {
+                sum = B.visit(i) + carry;
+                C.insert(i,sum%10000);
+                carry = sum/10000;
+                i++;
+            }
+            for (; i<maxLen;++i)
+            {
+                C.insert(i, B.visit(i));
+            }
+        }
+        else if (AorB==-1)
+        {
+            while (carry==1)
+            {
+                sum = A.visit(i) + carry;
+                C.insert(i,sum%10000);
+                carry = sum/10000;
+                i++;
+            }
+            for (; i<maxLen;++i)
+            {
+                C.insert(i, A.visit(i));
+            }
+        }
+        else
+        {
+            C.insert(i,1);
+        }
         return C;
     }
     
@@ -178,9 +226,9 @@ LongIntList operator+(const LongIntList &x, const LongIntList &y)
             change = true;
         else if (y.currentLength == x.currentLength)
         {
-            for (int i=0; i<maxLen; ++i)
+            for (i=0; i<minLen; ++i)
             {
-                if (y.visit(maxLen-1-i)>x.visit(maxLen-1-i))
+                if (y.visit(minLen-1-i)>x.visit(minLen-1-i))
                 {
                     change = true;
                     break;
@@ -194,13 +242,42 @@ LongIntList operator+(const LongIntList &x, const LongIntList &y)
             B = x;
         }
         
-        for ( int i=0; i<maxLen; ++i)
+        for ( i=0; i<minLen; ++i)
         {
             sum = A.visit(i) - B.visit(i) - carry;
-            C.insert(i,abs(sum));
+            if (sum>=0) carry=0;
+            else
+            {
+                carry=1;
+                sum+=10000;
+            }
+            C.insert(i,sum);
+            
+        }
+        if (A.currentLength!=B.currentLength)
+        {
+            while (carry==1)
+            {
+                sum=A.visit(i)-carry;
+                if (sum>=0) carry=0;
+                else
+                {
+                    carry=1;
+                    sum+=10000;
+                }
+                C.insert(i, sum);
+                
+                i++;
+            }
+            for (; i<maxLen;++i)
+            {
+                C.insert(i, A.visit(i));
+            }
         }
         
-        for (int i=C.currentLength; i>=0; --i)  //除掉最前面的0
+        
+        
+        for ( i=C.currentLength-1; i>=0; --i)  //除掉最前面的0
         {
             if (C.visit(i)==0)
                 C.remove(i);
@@ -208,7 +285,9 @@ LongIntList operator+(const LongIntList &x, const LongIntList &y)
         }
         
         if (change)
-            C.head->data = 1;
+            C.head->data = !x.head->data;
+        else
+            C.head->data = x.head->data;
         return C;
     }
 }
