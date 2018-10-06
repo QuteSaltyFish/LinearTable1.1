@@ -13,6 +13,7 @@
 using namespace std;
 class LongIntList
 {
+    friend ostream& operator<<(ostream& out, const LongIntList& obj);
     friend LongIntList operator+(const LongIntList &x, const LongIntList &y);
 private:
     struct node

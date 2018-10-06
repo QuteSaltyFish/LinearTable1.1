@@ -8,6 +8,7 @@
 
 #include "LongIntList.hpp"
 #include <iostream>
+#include <cmath>
 using namespace std;
 //返回第i个节点的地址
 LongIntList::node* LongIntList::move(int i) const
@@ -146,7 +147,19 @@ LongIntList::LongIntList(const LongIntList &obj)
     for (int i = 0; i<obj.currentLength; ++i)
         this->insert(i, obj.visit(i));
 }
-
+ostream& operator<<(ostream& out, const LongIntList& obj)
+{
+    std::cout<<"The Result is:";
+    if (obj.head->data==1)
+        std::cout<<'-';
+    int sum=0;
+    for (int i =0; i<obj.currentLength; ++i)
+    {
+        sum+=obj.visit(i)*pow(10000,i);
+    }
+    std::cout<<sum<<std::endl;
+    return out;
+}
 //两个相加
 LongIntList operator+(const LongIntList &x, const LongIntList &y)
 {
@@ -155,13 +168,13 @@ LongIntList operator+(const LongIntList &x, const LongIntList &y)
     {
         minLen = x.currentLength;
         maxLen = y.currentLength;
-        AorB=1;
+        AorB=-1;
     }
     else if(x.currentLength>y.currentLength)
     {
         minLen = y.currentLength;
         maxLen = x.currentLength;
-        AorB = -1;
+        AorB = 1;
     }
     else
     {
@@ -182,37 +195,42 @@ LongIntList operator+(const LongIntList &x, const LongIntList &y)
             C.insert(i,sum%10000);
             carry = sum/10000;
         }
-        if (AorB==1)
+        if (AorB==1)    //A大于B
         {
-            while (carry==1)
-            {
-                sum = B.visit(i) + carry;
-                C.insert(i,sum%10000);
-                carry = sum/10000;
-                i++;
-            }
-            for (; i<maxLen;++i)
-            {
-                C.insert(i, B.visit(i));
-            }
-        }
-        else if (AorB==-1)
-        {
-            while (carry==1)
+            while (carry==1 && i <maxLen)
             {
                 sum = A.visit(i) + carry;
                 C.insert(i,sum%10000);
                 carry = sum/10000;
                 i++;
             }
+            if (carry==1)
+                C.insert(i, 1);
             for (; i<maxLen;++i)
             {
                 C.insert(i, A.visit(i));
             }
         }
+        else if (AorB==-1)
+        {
+            while (carry==1 && i<maxLen)
+            {
+                sum = B.visit(i) + carry;
+                C.insert(i,sum%10000);
+                carry = sum/10000;
+                i++;
+            }
+            if (carry==1)
+                C.insert(i, 1);
+            for (; i<maxLen;++i)
+            {
+                C.insert(i, B.visit(i));
+            }
+        }
         else
         {
-            C.insert(i,1);
+            if (carry==1)
+                C.insert(i,1);
         }
         return C;
     }

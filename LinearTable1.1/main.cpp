@@ -11,7 +11,7 @@
 #include <string>
 #include <cstring>
 #include <cmath>
-
+using namespace std;
 int main(int argc, const char * argv[]) {
     // insert code here...
     string data;
@@ -21,6 +21,10 @@ int main(int argc, const char * argv[]) {
     
     cout<<"PLS input data:";
     cin>>data;
+    
+    data.erase(remove(data.begin(), data.end(), ','), data.end());     //删除逗号
+    
+    cout<<endl<<data;
     int index=(int)data.find_first_of(';');
     if (data[0] == '-')
     {
@@ -67,5 +71,6 @@ int main(int argc, const char * argv[]) {
     AList.traverse();
     BList.traverse();
     CList.traverse();
+    cout<<AList<<BList<<CList;
     return 0;
 }
